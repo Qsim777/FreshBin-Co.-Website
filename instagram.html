@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshBin Co. — Instagram</title>
+  <meta http-equiv="refresh" content="2;url=https://www.instagram.com/freshbinco">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #091422;
+      --teal: #00c896;
+      --border: rgba(0,200,150,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 32px;
+    }
+    .logo-text { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; color: #fff; }
+    .logo-text .bin { color: var(--teal); }
+    .card {
+      background: rgba(13,27,42,1);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 100%;
+    }
+    .redirect-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; }
+    p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 28px; }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 2.5px solid rgba(0,200,150,0.15);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn {
+      display: inline-block;
+      background: var(--teal);
+      color: #091422;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: 9px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #00dfa8; }
+    .back {
+      display: block;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 13px;
+      margin-top: 16px;
+      transition: color 0.2s;
+    }
+    .back:hover { color: rgba(255,255,255,0.8); }
+  </style>
+</head>
+<body>
+  <a href="/" class="logo">
+    <svg width="24" height="30" viewBox="0 0 44 56" xmlns="http://www.w3.org/2000/svg">
+      <rect x="14" y="0"  width="16" height="5"  rx="2.5" fill="#00c896"/>
+      <rect x="4"  y="5"  width="36" height="7"  rx="3.5" fill="#00c896"/>
+      <rect x="4"  y="12" width="36" height="2"  fill="rgba(255,255,255,0.3)"/>
+      <rect x="6"  y="14" width="32" height="38" rx="3"   fill="#00c896"/>
+      <rect x="13" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+      <rect x="21" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+      <rect x="29" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+    </svg>
+    <span class="logo-text"><span class="fresh">Fresh</span><span class="bin">Bin</span> Co.</span>
+  </a>
+
+  <div class="card">
+    <div class="redirect-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </div>
+    <h1>Taking you to Instagram</h1>
+    <p>Redirecting you to the FreshBin Co. Instagram page in a moment...</p>
+    <div class="spinner"></div>
+    <a href="https://www.instagram.com/freshbinco" class="btn">Open Instagram →</a>
+    <a href="/" class="back">← Back to FreshBin Co.</a>
+  </div>
+
+  <script>
+    setTimeout(() => { window.location.href = 'https://www.instagram.com/freshbinco'; }, 2000);
+  </script>
+</body>
+</html>

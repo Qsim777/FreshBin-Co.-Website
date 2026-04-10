@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshBin Co. — Professional Bin Cleaning | South East Melbourne</title>
+  <meta name="description" content="Professional bin cleaning in South East Melbourne from $20/bin. No lock-in contracts. Done at your kerb on collection day.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --navy:       #091422;
+      --navy-mid:   #0d1b2a;
+      --navy-light: #142233;
+      --teal:       #00c896;
+      --teal-light: #00dfa8;
+      --teal-dark:  #00a87a;
+      --white:      #ffffff;
+      --muted:      rgba(255,255,255,0.5);
+      --border:     rgba(0,200,150,0.15);
+      --radius:     14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.6;
+      font-size: 15px;
+      overflow-x: hidden;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ═══════════════════════════════════
+       NAV
+    ═══════════════════════════════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      background: rgba(9,20,34,0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--white);
+    }
+    .logo-text .bin { color: var(--teal); }
+
+    /* Nav links + sliding pill */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+      position: relative;
+    }
+    .nav-pill {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 34px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      transition:
+        left   0.25s cubic-bezier(0.34,1.4,0.64,1),
+        width  0.25s cubic-bezier(0.34,1.4,0.64,1),
+        opacity 0.15s ease;
+    }
+    .nav-links li { position: relative; }
+
+    /* Regular nav links */
+    .nav-links > li > a,
+    .nav-links > li > button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+      transition: color 0.15s, transform 0.15s;
+      position: relative;
+      z-index: 1;
+    }
+    .nav-links > li > a:hover,
+    .nav-links > li > button:hover {
+      color: var(--white);
+    }
+    .nav-caret {
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s;
+    }
+    .nav-links li.open .nav-caret { transform: rotate(180deg); }
+
+    /* Social dropdown */
+    .nav-dropdown {
+      position: relative;
+    }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px;
+      min-width: 160px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.34,1.4,0.64,1);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .nav-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background: var(--navy-mid);
+      border-left: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      rotate: 45deg;
+    }
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+    }
+    .nav-dropdown-menu a span.icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-nav {
+      background: var(--teal);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-nav:hover {
+      background: var(--teal-light);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,200,150,0.3);
+    }
+    .btn-nav:active { transform: translateY(0); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--navy-mid);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px 20px;
+      z-index: 299;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a,
+    .mobile-menu-section-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 14px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      width: 100%;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-of-type { border-bottom: none; }
+    .mobile-menu a:hover,
+    .mobile-menu-section-toggle:hover { color: var(--teal); }
+    .mobile-social-links {
+      display: none;
+      padding: 4px 8px 4px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .mobile-social-links.open { display: block; }
+    .mobile-social-links a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      padding: 10px 0;
+      border-bottom: none;
+    }
+    .mobile-cta {
+      display: block;
+      text-align: center;
+      background: var(--teal);
+      color: var(--navy) !important;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px !important;
+      border-radius: 10px;
+      margin-top: 12px;
+      border-bottom: none !important;
+    }
+
+    /* ═══════════════════════════════════
+       HERO
+    ═══════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 75% 20%, rgba(0,200,150,0.11) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(0,200,150,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 460px;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,200,150,0.08);
+      border: 1px solid rgba(0,200,150,0.2);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards 0.2s;
+    }
+    .hero-eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.65); }
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeSlideUp 0.7s ease forwards 0.35s;
+    }
+    .hero h1 .accent { color: var(--teal); }
+    .hero-price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards 0.48s;
+    }
+    .hero-price-tag::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--teal);
+      opacity: 0.6;
+    }
+    .hero-sub {
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.58);
+      margin-bottom: 36px;
+      max-width: 520px;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards 0.55s;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards 0.65s;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 16px;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0,200,150,0.32);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 16px;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex;
+      gap: 36px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards 0.75s;
+    }
+    .stat-num {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--teal);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    /* Bin visual */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s ease forwards 0.4s;
+    }
+    .bin-scene {
+      position: relative;
+      width: 300px;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bin-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,200,150,0.1);
+      animation: ringExpand 3.5s ease-out infinite;
+    }
+    .bin-ring:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s; }
+    .bin-ring:nth-child(2) { width: 290px; height: 290px; animation-delay: 1.1s; }
+    .bin-ring:nth-child(3) { width: 380px; height: 380px; animation-delay: 2.2s; }
+    @keyframes ringExpand {
+      0%   { opacity: 0.5; transform: scale(0.88); }
+      100% { opacity: 0;   transform: scale(1.08); }
+    }
+    .bin-glow-blob {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(0,200,150,0.16) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .bin-svg-wrap {
+      position: relative;
+      animation: floatBin 4s ease-in-out infinite;
+      filter: drop-shadow(0 24px 48px rgba(0,200,150,0.28));
+      z-index: 2;
+      will-change: transform;
+    }
+    @keyframes floatBin {
+      0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+      50%       { transform: translateY(-18px) rotate(1.5deg); }
+    }
+    .sparkle { position: absolute; z-index: 3; }
+    .sparkle svg { animation: twinkle var(--dur,2s) ease-in-out infinite var(--delay,0s); }
+    @keyframes twinkle {
+      0%,100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+      50%      { opacity: 1; transform: scale(1) rotate(30deg); }
+    }
+    .sp1 { top:8%;  right:12%; --dur:2.1s; --delay:0.2s; }
+    .sp2 { top:22%; left:6%;  --dur:2.6s; --delay:0.9s; }
+    .sp3 { bottom:18%; right:5%; --dur:1.9s; --delay:1.4s; }
+    .sp4 { bottom:30%; left:8%; --dur:2.3s; --delay:0.5s; }
+    .sp5 { top:50%; right:2%;  --dur:2.8s; --delay:1.8s; }
+
+    /* ═══════════════════════════════════
+       SECTION BASE
+    ═══════════════════════════════════ */
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 24px;
+    }
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--teal);
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 540px;
+    }
+    .accent { color: var(--teal); }
+
+    /* ═══════════════════════════════════
+       HOW IT WORKS
+    ═══════════════════════════════════ */
+    .how-section { background: var(--navy-mid); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .step-card {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 30px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .step-card::after {
+      content: '';
+      position: absolute;
+      top:0; left:0; right:0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .step-card:hover { border-color: rgba(0,200,150,0.28); transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+    .step-card:hover::after { opacity: 1; }
+    .step-num { font-size: 72px; font-weight: 900; line-height: 1; color: rgba(0,200,150,0.07); letter-spacing: -0.05em; margin-bottom: 12px; }
+    .step-icon { width:48px; height:48px; background:rgba(0,200,150,0.08); border:1px solid rgba(0,200,150,0.18); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+    .step-card h3 { font-size:18px; font-weight:700; letter-spacing:-0.02em; margin-bottom:10px; }
+    .step-card p  { font-size:14px; color:var(--muted); line-height:1.75; }
+
+    /* ═══════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .service-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 56px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,200,150,0.18);
+      border-color: rgba(0,200,150,0.28);
+    }
+    .service-card.featured {
+      border-color: rgba(0,200,150,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    }
+    .service-head {
+      padding: 32px 28px 24px;
+      background: linear-gradient(140deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-head::after {
+      content: '';
+      position: absolute;
+      bottom:-40px; right:-40px;
+      width:120px; height:120px;
+      background: radial-gradient(circle, rgba(0,200,150,0.1) 0%, transparent 70%);
+    }
+    .featured .service-head {
+      background: linear-gradient(140deg, rgba(0,200,150,0.13) 0%, rgba(0,168,122,0.05) 100%);
+    }
+    .service-badge {
+      display: inline-block;
+      background: rgba(0,200,150,0.12);
+      color: var(--teal);
+      border: 1px solid rgba(0,200,150,0.2);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+    .featured .service-badge {
+      background: var(--teal);
+      color: var(--navy);
+      border-color: transparent;
+    }
+    .service-head h3 { font-size:21px; font-weight:800; letter-spacing:-0.03em; margin-bottom:8px; }
+    .service-head p  { font-size:13px; color:var(--muted); line-height:1.65; }
+    .service-body { padding:24px 28px 30px; flex:1; display:flex; flex-direction:column; }
+    .feature-list { list-style:none; display:flex; flex-direction:column; gap:10px; flex:1; }
+    .feature-list li { display:flex; gap:10px; font-size:14px; color:rgba(255,255,255,0.72); align-items:flex-start; }
+    .feature-list li::before { content:'✓'; color:var(--teal); font-weight:700; flex-shrink:0; margin-top:1px; }
+    .service-cta {
+      display: block;
+      text-align: center;
+      background: var(--teal);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 13px;
+      border-radius: 9px;
+      text-decoration: none;
+      margin-top: 20px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .service-cta:hover { background:var(--teal-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,200,150,0.28); }
+    .service-cta.ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+    .service-cta.ghost:hover { border-color:var(--teal); color:var(--teal); transform:translateY(-2px); }
+
+    /* ═══════════════════════════════════
+       PRICING
+    ═══════════════════════════════════ */
+    .pricing-section { background: var(--navy-mid); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+    .pricing-card {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 22px 26px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .pricing-card:hover { transform:translateY(-6px); border-color:rgba(0,200,150,0.28); box-shadow:0 20px 48px rgba(0,0,0,0.3); }
+    .pricing-card.popular { border-color:var(--teal); box-shadow:0 0 48px rgba(0,200,150,0.1), 0 20px 40px rgba(0,0,0,0.3); }
+    .popular-badge { position:absolute; top:0; right:18px; background:var(--teal); color:var(--navy); font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:5px 10px 6px; border-radius:0 0 9px 9px; }
+    .plan-name { font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px; }
+    .plan-price { display:flex; align-items:flex-start; gap:2px; line-height:1; margin-bottom:5px; }
+    .plan-price-dollar { font-size:22px; font-weight:700; color:var(--white); margin-top:8px; }
+    .plan-price-num { font-size:52px; font-weight:900; color:var(--white); letter-spacing:-0.05em; }
+    .plan-unit { font-size:12px; color:var(--muted); margin-bottom:6px; }
+    .plan-saving { font-size:13px; font-weight:600; color:var(--teal); margin-bottom:22px; min-height:20px; }
+    .plan-divider { height:1px; background:var(--border); margin-bottom:18px; }
+    .plan-features { list-style:none; display:flex; flex-direction:column; gap:9px; flex:1; margin-bottom:24px; }
+    .plan-features li { display:flex; gap:9px; font-size:13px; color:rgba(255,255,255,0.68); align-items:flex-start; }
+    .plan-features li::before { content:'✓'; color:var(--teal); font-weight:700; flex-shrink:0; }
+    .plan-btn { display:block; text-align:center; padding:13px; border-radius:9px; font-weight:700; font-size:14px; text-decoration:none; transition:all 0.2s; }
+    .plan-btn-outline { border:1px solid rgba(255,255,255,0.14); color:var(--white); }
+    .plan-btn-outline:hover { border-color:var(--teal); color:var(--teal); transform:translateY(-1px); }
+    .plan-btn-fill { background:var(--teal); color:var(--navy); }
+    .plan-btn-fill:hover { background:var(--teal-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,200,150,0.3); }
+
+    /* ═══════════════════════════════════
+       WHY US
+    ═══════════════════════════════════ */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+    .why-card { background:var(--navy-mid); border:1px solid var(--border); border-radius:var(--radius); padding:30px 26px; transition:transform 0.3s, border-color 0.3s; }
+    .why-card:hover { transform:translateY(-4px); border-color:rgba(0,200,150,0.24); }
+    .why-icon { font-size:30px; margin-bottom:14px; display:block; }
+    .why-card h3 { font-size:16px; font-weight:700; letter-spacing:-0.02em; margin-bottom:8px; }
+    .why-card p  { font-size:14px; color:var(--muted); line-height:1.75; }
+
+    /* ═══════════════════════════════════
+       SUBURBS
+    ═══════════════════════════════════ */
+    .suburbs-section { background: var(--navy-mid); }
+    .suburb-cloud { display:flex; flex-wrap:wrap; gap:10px; margin-top:44px; }
+    .suburb-tag {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 100px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .suburb-tag:hover { background:rgba(0,200,150,0.07); border-color:rgba(0,200,150,0.28); color:var(--white); }
+
+    /* ═══════════════════════════════════
+       FINAL CTA
+    ═══════════════════════════════════ */
+    .cta-section { position:relative; overflow:hidden; }
+    .cta-section::before {
+      content:'';
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,200,150,0.1) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .cta-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 24px;
+      text-align: center;
+    }
+    .cta-inner .section-eyebrow { justify-content:center; margin-bottom:20px; }
+    .cta-title { font-size:clamp(2rem,4vw,3.4rem); font-weight:900; letter-spacing:-0.04em; margin-bottom:16px; line-height:1.08; }
+    .cta-sub { font-size:17px; color:var(--muted); max-width:460px; margin:0 auto 40px; line-height:1.75; }
+    .cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+    /* ═══════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════ */
+    footer { background:var(--navy-mid); border-top:1px solid var(--border); }
+    .footer-inner { max-width:1200px; margin:0 auto; padding:56px 24px 36px; }
+    .footer-top { display:flex; justify-content:space-between; align-items:flex-start; gap:48px; margin-bottom:48px; }
+    .footer-brand p { font-size:13px; color:var(--muted); max-width:240px; line-height:1.7; margin-top:12px; }
+    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
+    .footer-col h4 { font-size:11px; font-weight:600; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:14px; }
+    .footer-col a { display:block; color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; margin-bottom:10px; transition:color 0.2s; }
+    .footer-col a:hover { color:var(--white); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; padding-top:24px; border-top:1px solid rgba(255,255,255,0.06); }
+    .footer-copy { font-size:13px; color:rgba(255,255,255,0.28); }
+    .social-row { display:flex; gap:10px; }
+    .social-btn { width:36px; height:36px; background:var(--navy); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; justify-content:center; text-decoration:none; color:rgba(255,255,255,0.45); transition:all 0.2s; }
+    .social-btn:hover { border-color:rgba(0,200,150,0.3); color:var(--teal); transform:translateY(-2px); }
+
+    /* ═══════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════ */
+    @keyframes fadeSlideUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    /* shimmer on teal btns */
+    .btn-primary, .btn-nav, .plan-btn-fill, .service-cta:not(.ghost) {
+      overflow: hidden;
+    }
+    .btn-primary::after, .btn-nav::after, .plan-btn-fill::after, .service-cta:not(.ghost)::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s ease;
+    }
+    .btn-primary { position:relative; }
+    .btn-primary:hover::after { left: 150%; }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .pricing-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .btn-nav { display:none; }
+      .hamburger { display:flex; }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 52px 24px 72px;
+        gap: 44px;
+        text-align: center;
+      }
+      .hero-eyebrow { margin-left:auto; margin-right:auto; }
+      .hero-sub { margin-left:auto; margin-right:auto; }
+      .hero-ctas { justify-content:center; }
+      .hero-stats { justify-content:center; }
+      .hero-visual { order:-1; }
+      .bin-scene { width:200px; height:260px; }
+
+      .steps-grid { grid-template-columns:1fr; }
+      .services-grid { grid-template-columns:1fr; max-width:100%; }
+      .why-grid { grid-template-columns:1fr 1fr; }
+
+      .footer-top { flex-direction:column; gap:32px; }
+      .footer-links { gap:32px; }
+      .footer-bottom { flex-direction:column; gap:12px; }
+    }
+    @media (max-width: 560px) {
+      .pricing-grid { grid-template-columns:1fr; }
+      .why-grid { grid-template-columns:1fr; }
+      .hero h1 { font-size: 2.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     NAV
+═══════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <svg width="28" height="35" viewBox="0 0 44 56" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="0"  width="16" height="5"  rx="2.5" fill="#00c896"/>
+        <rect x="4"  y="5"  width="36" height="7"  rx="3.5" fill="#00c896"/>
+        <rect x="4"  y="12" width="36" height="2"  fill="rgba(255,255,255,0.3)"/>
+        <rect x="6"  y="14" width="32" height="38" rx="3"   fill="#00c896"/>
+        <rect x="13" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+        <rect x="21" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+        <rect x="29" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+      </svg>
+      <span class="logo-text"><span class="fresh">Fresh</span><span class="bin">Bin</span> Co.</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <div class="nav-pill" id="navPill"></div>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#areas">Areas</a></li>
+      <li class="nav-dropdown" id="socialDropdown">
+        <button class="nav-dropdown-toggle" id="socialToggle">
+          Social Media
+          <svg class="nav-caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 3.5l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="instagram.html">
+            <span class="icon" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </span>
+            Instagram
+          </a>
+          <a href="tiktok.html">
+            <span class="icon" style="background:#010101; border:1px solid rgba(255,255,255,0.1)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </span>
+            TikTok
+          </a>
+        </div>
+      </li>
+    </ul>
+
+    <a href="book.html" class="btn-nav">Book Now Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how"      onclick="closeMobile()">How It Works</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#pricing"  onclick="closeMobile()">Pricing</a>
+  <a href="#areas"    onclick="closeMobile()">Areas</a>
+  <button class="mobile-menu-section-toggle" id="mobileSocialToggle">
+    Social Media
+    <svg width="12" height="12" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" id="mobileSocialCaret">
+      <path d="M2 3.5l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="mobile-social-links" id="mobileSocialLinks">
+    <a href="instagram.html" onclick="closeMobile()">📸 Instagram</a>
+    <a href="tiktok.html"    onclick="closeMobile()">🎵 TikTok</a>
+  </div>
+  <a href="book.html" class="mobile-cta">Book Now Now</a>
+</div>
+
+<!-- ═══════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        South East Melbourne
+      </div>
+      <h1>Your bins,<br><span class="accent">professionally</span> cleaned</h1>
+      <p class="hero-sub">We deep clean with a commercial pressure washer using our exclusive bin soap formula — blasting out grime, bacteria, and build-up. Then we deodorise every corner so your bin smells incredible, and dry it to a spotless shine. Done at your kerb.</p>
+      <div class="hero-ctas">
+        <a href="book.html" class="btn-primary">Book Now Now</a>
+        <a href="https://wa.me/61424149749" class="btn-ghost" target="_blank" rel="noopener">📱 WhatsApp Us</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num" data-count="20" data-prefix="$">$20</div>
+          <div class="stat-label">from / bin / month</div>
+        </div>
+        <div>
+          <div class="stat-num" data-count="30" data-suffix="+">30+</div>
+          <div class="stat-label">suburbs served</div>
+        </div>
+        <div>
+          <div class="stat-num" data-count="0">0</div>
+          <div class="stat-label">lock-in contracts</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="bin-scene" id="binScene">
+        <div class="bin-ring"></div>
+        <div class="bin-ring"></div>
+        <div class="bin-ring"></div>
+        <div class="bin-glow-blob"></div>
+        <div class="bin-svg-wrap" id="binSvg">
+          <svg width="200" height="256" viewBox="0 0 44 56" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="0"  width="16" height="5"  rx="2.5" fill="#00c896"/>
+            <rect x="4"  y="5"  width="36" height="7"  rx="3.5" fill="#00c896"/>
+            <rect x="4"  y="12" width="36" height="2"  fill="rgba(255,255,255,0.3)"/>
+            <rect x="6"  y="14" width="32" height="38" rx="3"   fill="#00c896"/>
+            <rect x="13" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+            <rect x="21" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+            <rect x="29" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+          </svg>
+        </div>
+        <div class="sparkle sp1"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 0v5M10 15v5M0 10h5M15 10h5M2.93 2.93l3.54 3.54M13.54 13.54l3.54 3.54M2.93 17.07l3.54-3.54M13.54 6.46l3.54-3.54" stroke="#00c896" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="sparkle sp2"><svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 0v5M10 15v5M0 10h5M15 10h5M2.93 2.93l3.54 3.54M13.54 13.54l3.54 3.54M2.93 17.07l3.54-3.54M13.54 6.46l3.54-3.54" stroke="#00c896" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="sparkle sp3"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 0v5M10 15v5M0 10h5M15 10h5M2.93 2.93l3.54 3.54M13.54 13.54l3.54 3.54M2.93 17.07l3.54-3.54M13.54 6.46l3.54-3.54" stroke="#00c896" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="sparkle sp4"><svg width="12" height="12" viewBox="0 0 20 20" fill="none"><path d="M10 0v5M10 15v5M0 10h5M15 10h5M2.93 2.93l3.54 3.54M13.54 13.54l3.54 3.54M2.93 17.07l3.54-3.54M13.54 6.46l3.54-3.54" stroke="#00c896" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="sparkle sp5"><svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M10 0v5M10 15v5M0 10h5M15 10h5M2.93 2.93l3.54 3.54M13.54 13.54l3.54 3.54M2.93 17.07l3.54-3.54M13.54 6.46l3.54-3.54" stroke="#00c896" stroke-width="2" stroke-linecap="round"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════ -->
+<section class="how-section" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-title">Three steps to a <span class="accent">fresh bin</span></h2>
+    <p class="section-sub">Simple, reliable, and done while you're at work. No effort needed from you.</p>
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <div class="step-num">01</div>
+        <div class="step-icon">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00c896" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <h3>We Come to You</h3>
+        <p>On your bin collection day, after the truck empties your bins, we show up at your kerb. No need to be home — just leave the bins out.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:0.1s">
+        <div class="step-num">02</div>
+        <div class="step-icon">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00c896" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        </div>
+        <h3>Deep Clean Process</h3>
+        <p>Commercial pressure washer, exclusive soap formula — grime, bacteria, and build-up blasted out. Every corner deodorised for a genuinely fresh result.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:0.2s">
+        <div class="step-num">03</div>
+        <div class="step-icon">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00c896" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3>Fresh &amp; Done</h3>
+        <p>Dried to a spotless shine and returned to your property. You come home to a bin that looks — and smells — brand new. Every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SERVICES
+═══════════════════════════════════ -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-eyebrow">Services</div>
+    <h2 class="section-title">What we offer</h2>
+    <p class="section-sub">Three services, all done at your property — book one or combine them in a single visit.</p>
+    <div class="services-grid">
+
+      <a href="book.html?service=bin" class="service-card featured fade-in" style="text-decoration:none;color:inherit;cursor:pointer">
+        <div class="service-head">
+          <div class="service-badge">Most Popular</div>
+          <h3>Bin Deep Clean</h3>
+          <p>Full pressure wash with our exclusive soap formula. Deodorised and dried to a shine. From $20/bin.</p>
+        </div>
+        <div class="service-body">
+          <ul class="feature-list">
+            <li>Commercial pressure washer</li>
+            <li>Exclusive bin soap formula</li>
+            <li>Bacteria &amp; grime eliminated</li>
+            <li>Full deodorise treatment</li>
+            <li>Dried to a spotless finish</li>
+            <li>Done at your kerb — zero hassle</li>
+          </ul>
+        </div>
+      </a>
+
+      <a href="book.html" class="service-card fade-in" style="text-decoration:none;color:inherit;cursor:pointer;transition-delay:0.1s">
+        <div class="service-head">
+          <div class="service-badge">Service</div>
+          <h3>Window Cleaning</h3>
+          <p>Crystal-clear windows, inside and out. Professional streak-free finish for your home.</p>
+        </div>
+        <div class="service-body">
+          <ul class="feature-list">
+            <li>Interior and exterior windows</li>
+            <li>Streak-free professional finish</li>
+            <li>Frames and sills wiped down</li>
+            <li>Can be combined with bin clean</li>
+            <li>Competitively priced — contact us</li>
+          </ul>
+        </div>
+      </a>
+
+      <a href="book.html" class="service-card fade-in" style="text-decoration:none;color:inherit;cursor:pointer;transition-delay:0.2s">
+        <div class="service-head">
+          <div class="service-badge">Service</div>
+          <h3>Car Exterior Cleaning</h3>
+          <p>Pressure wash your car exterior while we're already at your property — convenient and affordable.</p>
+        </div>
+        <div class="service-body">
+          <ul class="feature-list">
+            <li>Full exterior pressure wash</li>
+            <li>Wheel arches and tyres</li>
+            <li>Doors, bonnet, boot &amp; roof</li>
+            <li>Can be combined with bin clean</li>
+            <li>Competitively priced — contact us</li>
+          </ul>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     PRICING
+═══════════════════════════════════ -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Simple, honest <span class="accent">pricing</span></h2>
+    <p class="section-sub">Per bin. No lock-in contracts. Cancel or pause any time — no questions asked. Keeping it local, keeping it affordable.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-in">
+        <div class="plan-name">One-Off Clean</div>
+        <div class="plan-price"><span class="plan-price-dollar">$</span><span class="plan-price-num">25</span></div>
+        <div class="plan-unit">per bin</div>
+        <div class="plan-saving" style="color:var(--muted)">No commitment</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Single clean, no recurring</li>
+          <li>Pressure wash</li>
+          <li>Exclusive soap formula</li>
+          <li>Deodorise &amp; dry</li>
+        </ul>
+        <a href="book.html?plan=one-off" class="plan-btn plan-btn-outline">Book Now</a>
+      </div>
+      <div class="pricing-card fade-in" style="transition-delay:0.1s">
+        <div class="plan-name">Quarterly</div>
+        <div class="plan-price"><span class="plan-price-dollar">$</span><span class="plan-price-num">23</span></div>
+        <div class="plan-unit">per bin, every 3 months</div>
+        <div class="plan-saving">Save 8%</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>4 cleans per year</li>
+          <li>Pressure wash</li>
+          <li>Exclusive soap formula</li>
+          <li>Deodorise &amp; dry</li>
+        </ul>
+        <a href="book.html?plan=quarterly" class="plan-btn plan-btn-outline">Book Now</a>
+      </div>
+      <div class="pricing-card fade-in" style="transition-delay:0.2s">
+        <div class="plan-name">Bimonthly</div>
+        <div class="plan-price"><span class="plan-price-dollar">$</span><span class="plan-price-num">22</span></div>
+        <div class="plan-unit">per bin, every 2 months</div>
+        <div class="plan-saving">Save 12%</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>6 cleans per year</li>
+          <li>Pressure wash</li>
+          <li>Exclusive soap formula</li>
+          <li>Deodorise &amp; dry</li>
+        </ul>
+        <a href="book.html?plan=bimonthly" class="plan-btn plan-btn-outline">Book Now</a>
+      </div>
+      <div class="pricing-card popular fade-in" style="transition-delay:0.3s">
+        <div class="popular-badge">⭐ Most Popular</div>
+        <div class="plan-name">Monthly</div>
+        <div class="plan-price"><span class="plan-price-dollar">$</span><span class="plan-price-num">20</span></div>
+        <div class="plan-unit">per bin, every month</div>
+        <div class="plan-saving">Save 20%</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>12 cleans per year</li>
+          <li>Pressure wash</li>
+          <li>Exclusive soap formula</li>
+          <li>Deodorise &amp; dry</li>
+        </ul>
+        <a href="book.html?plan=monthly" class="plan-btn plan-btn-fill">Book Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     WHY US
+═══════════════════════════════════ -->
+<section>
+  <div class="section-inner">
+    <div class="section-eyebrow">Why FreshBin Co.</div>
+    <h2 class="section-title">The clean you can <span class="accent">trust</span></h2>
+    <p class="section-sub">We do the dirty work — so you never have to think about your bins again.</p>
+    <div class="why-grid">
+      <div class="why-card fade-in"><span class="why-icon">🚿</span><h3>Commercial Grade Equipment</h3><p>Professional pressure washers — not garden hoses. The kind that actually blasts out hardened grime and bacteria.</p></div>
+      <div class="why-card fade-in" style="transition-delay:0.07s"><span class="why-icon">🧪</span><h3>Exclusive Soap Formula</h3><p>Our proprietary bin soap cuts through grease and odour at the source — leaving a genuinely fresh result every time.</p></div>
+      <div class="why-card fade-in" style="transition-delay:0.14s"><span class="why-icon">📍</span><h3>Done at Your Kerb</h3><p>We clean on your bin day, at the kerb, after the truck empties. You don't need to be home. Zero effort from you.</p></div>
+      <div class="why-card fade-in" style="transition-delay:0.21s"><span class="why-icon">💰</span><h3>Local, Affordable Prices</h3><p>Priced for South East Melbourne locals. No inflated rates, no hidden fees. From $20/bin — transparent every time.</p></div>
+      <div class="why-card fade-in" style="transition-delay:0.28s"><span class="why-icon">💬</span><h3>WhatsApp Book Nowing</h3><p>Skip the form if you prefer. Chat directly with Qasim on WhatsApp to book, ask questions, or make changes.</p></div>
+      <div class="why-card fade-in" style="transition-delay:0.35s"><span class="why-icon">✨</span><h3>Spotless Every Time</h3><p>Dried to a shine before we leave. You come home to a bin that looks and smells brand new. Guaranteed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SUBURBS
+═══════════════════════════════════ -->
+<section class="suburbs-section" id="areas">
+  <div class="section-inner">
+    <div class="section-eyebrow">Service Area</div>
+    <h2 class="section-title">South East <span class="accent">Melbourne</span></h2>
+    <p class="section-sub">We cover 30 suburbs across South East Melbourne. Don't see yours? WhatsApp us — we're expanding.</p>
+    <div class="suburb-cloud">
+      <span class="suburb-tag">Berwick</span><span class="suburb-tag">Narre Warren</span><span class="suburb-tag">Narre Warren North</span><span class="suburb-tag">Narre Warren South</span><span class="suburb-tag">Cranbourne</span><span class="suburb-tag">Cranbourne North</span><span class="suburb-tag">Cranbourne East</span><span class="suburb-tag">Cranbourne West</span><span class="suburb-tag">Clyde</span><span class="suburb-tag">Clyde North</span><span class="suburb-tag">Beaconsfield</span><span class="suburb-tag">Beaconsfield Upper</span><span class="suburb-tag">Officer</span><span class="suburb-tag">Officer South</span><span class="suburb-tag">Pakenham</span><span class="suburb-tag">Pakenham Upper</span><span class="suburb-tag">Hallam</span><span class="suburb-tag">Hampton Park</span><span class="suburb-tag">Lynbrook</span><span class="suburb-tag">Lyndhurst</span><span class="suburb-tag">Doveton</span><span class="suburb-tag">Endeavour Hills</span><span class="suburb-tag">Dandenong</span><span class="suburb-tag">Dandenong South</span><span class="suburb-tag">Springvale</span><span class="suburb-tag">Springvale South</span><span class="suburb-tag">Noble Park</span><span class="suburb-tag">Noble Park North</span><span class="suburb-tag">Keysborough</span><span class="suburb-tag">Bangholme</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     FINAL CTA
+═══════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="section-eyebrow">Get Started Today</div>
+    <h2 class="cta-title">Ready for a <span class="accent">fresh bin?</span></h2>
+    <p class="cta-sub">Local prices, no contracts, done at your kerb. Join homes across South East Melbourne.</p>
+    <div class="cta-btns">
+      <a href="book.html" class="btn-primary" style="font-size:17px;padding:17px 34px">Book Now Now — From $20</a>
+      <a href="https://wa.me/61424149749" class="btn-ghost" style="font-size:17px;padding:17px 34px" target="_blank" rel="noopener">📱 Chat on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     FOOTER
+═══════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <svg width="26" height="32" viewBox="0 0 44 56" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="0"  width="16" height="5"  rx="2.5" fill="#00c896"/>
+            <rect x="4"  y="5"  width="36" height="7"  rx="3.5" fill="#00c896"/>
+            <rect x="4"  y="12" width="36" height="2"  fill="rgba(255,255,255,0.3)"/>
+            <rect x="6"  y="14" width="32" height="38" rx="3"   fill="#00c896"/>
+            <rect x="13" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+            <rect x="21" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+            <rect x="29" y="17" width="2.5" height="32" rx="1.25" fill="rgba(255,255,255,0.18)"/>
+          </svg>
+          <span class="logo-text" style="margin-left:10px"><span class="fresh">Fresh</span><span class="bin">Bin</span> Co.</span>
+        </a>
+        <p>Professional bin cleaning for South East Melbourne. Done at your kerb on collection day.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a href="#how">How It Works</a>
+          <a href="#services">Services</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#areas">Areas</a>
+          <a href="book.html">Book Now Now</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="https://wa.me/61424149749" target="_blank" rel="noopener">WhatsApp Us</a>
+          <a href="tel:0424149749">0424 149 749</a>
+        </div>
+        <div class="footer-col">
+          <h4>Social</h4>
+          <a href="instagram.html">Instagram</a>
+          <a href="tiktok.html">TikTok</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 FreshBin Co. All rights reserved. South East Melbourne.</span>
+      <div class="social-row">
+        <a href="instagram.html" class="social-btn" title="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="tiktok.html" class="social-btn" title="TikTok"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+        <a href="https://wa.me/61424149749" class="social-btn" title="WhatsApp" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── HAMBURGER ───────────────────────────────────────────
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+  document.addEventListener('click', e => {
+    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobile();
+  });
+
+  // Mobile social sub-toggle
+  document.getElementById('mobileSocialToggle').addEventListener('click', () => {
+    const links = document.getElementById('mobileSocialLinks');
+    const caret = document.getElementById('mobileSocialCaret');
+    links.classList.toggle('open');
+    caret.style.transform = links.classList.contains('open') ? 'rotate(180deg)' : '';
+  });
+
+  // ─── SOCIAL DROPDOWN ─────────────────────────────────────
+  const socialDropdown = document.getElementById('socialDropdown');
+  const socialToggle   = document.getElementById('socialToggle');
+  socialToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    socialDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', e => {
+    if (!socialDropdown.contains(e.target)) socialDropdown.classList.remove('open');
+  });
+
+  // ─── SLIDING PILL NAV ────────────────────────────────────
+  const navLinks = document.getElementById('navLinks');
+  const pill     = document.getElementById('navPill');
+  const navItems = navLinks.querySelectorAll('li > a, li > button');
+
+  function movePillTo(el) {
+    const navRect = navLinks.getBoundingClientRect();
+    const elRect  = el.getBoundingClientRect();
+    pill.style.left    = (elRect.left - navRect.left - 6) + 'px';
+    pill.style.width   = (elRect.width + 12) + 'px';
+    pill.style.opacity = '1';
+  }
+
+  navItems.forEach(item => {
+    item.addEventListener('mouseenter', () => movePillTo(item));
+
+    // Magnetic cursor effect — item slightly follows cursor
+    item.addEventListener('mousemove', e => {
+      const r  = item.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2))  * 0.18;
+      const dy = (e.clientY - (r.top  + r.height / 2)) * 0.22;
+      item.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    item.addEventListener('mouseleave', () => {
+      item.style.transform = '';
+    });
+  });
+
+  navLinks.addEventListener('mouseleave', () => { pill.style.opacity = '0'; });
+
+  // ─── SCROLL FADE-IN ──────────────────────────────────────
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // ─── BIN PARALLAX ON MOUSE ───────────────────────────────
+  const binSvg = document.getElementById('binSvg');
+  document.addEventListener('mousemove', e => {
+    if (window.innerWidth < 768) return;
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx * 8;
+    const dy = (e.clientY - cy) / cy * 5;
+    // Layer the parallax on top of the float animation via CSS var
+    binSvg.style.setProperty('--mx', dx + 'px');
+    binSvg.style.setProperty('--my', dy + 'px');
+    binSvg.style.marginLeft = dx * 0.4 + 'px';
+    binSvg.style.marginTop  = dy * 0.4 + 'px';
+  });
+
+  // ─── ANIMATED STAT COUNTERS ──────────────────────────────
+  function animateCount(el) {
+    const target = parseInt(el.dataset.count, 10);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(ease * target) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.target.dataset.count !== undefined) {
+        animateCount(e.target);
+        counterObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+</script>
+</body>
+</html>

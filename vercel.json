@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    { "source": "/instagram", "destination": "/instagram.html", "permanent": false },
+    { "source": "/insta",     "destination": "/instagram.html", "permanent": false },
+    { "source": "/ig",        "destination": "/instagram.html", "permanent": false },
+    { "source": "/tiktok",    "destination": "/tiktok.html",    "permanent": false },
+    { "source": "/tt",        "destination": "/tiktok.html",    "permanent": false },
+    { "source": "/whatsapp",  "destination": "https://wa.me/61424149749", "permanent": false },
+    { "source": "/wa",        "destination": "https://wa.me/61424149749", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/book", "destination": "/book.html" }
+  ]
+}

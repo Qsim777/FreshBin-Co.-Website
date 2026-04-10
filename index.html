@@ -1313,6 +1313,9 @@
     if (!socialDropdown.contains(e.target)) socialDropdown.classList.remove('open');
   });
 
+  // ─── SHARED UTILS ────────────────────────────────────────
+  const clamp = (val, max) => Math.max(-max, Math.min(max, val));
+
   // ─── SLIDING PILL NAV ────────────────────────────────────
   const navLinks = document.getElementById('navLinks');
   const pill     = document.getElementById('navPill');
@@ -1330,10 +1333,11 @@
     item.addEventListener('mouseenter', () => movePillTo(item));
 
     // Magnetic cursor effect — item slightly follows cursor
+    item.style.transition = 'transform 0.25s cubic-bezier(0.34,1.2,0.64,1)';
     item.addEventListener('mousemove', e => {
       const r  = item.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2))  * 0.18;
-      const dy = (e.clientY - (r.top  + r.height / 2)) * 0.22;
+      const dx = clamp((e.clientX - (r.left + r.width  / 2)) * 0.06, 3);
+      const dy = clamp((e.clientY - (r.top  + r.height / 2)) * 0.06, 3);
       item.style.transform = `translate(${dx}px, ${dy}px)`;
     });
     item.addEventListener('mouseleave', () => {
@@ -1348,6 +1352,23 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
   document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // ─── MAGNETIC EFFECT — large clickable cards only ────────
+  const magnetTargets = document.querySelectorAll(
+    '.step-card, .service-card, .pricing-card'
+  );
+  magnetTargets.forEach(el => {
+    el.style.transition = 'transform 0.25s cubic-bezier(0.34,1.2,0.64,1)';
+    el.addEventListener('mousemove', e => {
+      const r  = el.getBoundingClientRect();
+      const dx = clamp((e.clientX - (r.left + r.width  / 2)) * 0.025, 2);
+      const dy = clamp((e.clientY - (r.top  + r.height / 2)) * 0.05,  4);
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  });
 
   // ─── BIN PARALLAX ON MOUSE ───────────────────────────────
   const binSvg = document.getElementById('binSvg');

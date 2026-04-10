@@ -207,6 +207,7 @@
       cursor: pointer;
     }
     select option { background: var(--navy-mid); color: var(--white); }
+    select { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
     textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
 
     /* CHECKBOXES */
@@ -633,28 +634,30 @@
             <option>Thursday</option>
             <option>Friday</option>
             <option>Saturday</option>
+            <option>Sunday</option>
           </select>
         </div>
         <div class="field">
           <label for="preferredTime">Preferred Time <span class="req">*</span></label>
           <select id="preferredTime" name="preferredTime" required>
             <option value="" disabled selected>Select a time</option>
-            <option>Early Morning (6am–9am)</option>
-            <option>Morning (9am–12pm)</option>
+            <option>Morning (7am–12pm)</option>
             <option>Afternoon (12pm–5pm)</option>
+            <option>Evening (5pm–9pm)</option>
           </select>
         </div>
       </div>
       <div class="field" style="max-width:50%">
         <label for="collectionDay">Bin Collection Day <span class="req">*</span></label>
         <select id="collectionDay" name="collectionDay" required>
-          <option value="" disabled selected>Which day is your bin day?</option>
+          <option value="" disabled selected>Select a day</option>
           <option>Monday</option>
           <option>Tuesday</option>
           <option>Wednesday</option>
           <option>Thursday</option>
           <option>Friday</option>
           <option>Saturday</option>
+          <option>Sunday</option>
         </select>
       </div>
     </div>
